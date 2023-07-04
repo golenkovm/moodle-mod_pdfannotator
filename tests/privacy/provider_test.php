@@ -22,13 +22,6 @@ use core_privacy\local\request\approved_userlist;
 use core_privacy\tests\provider_testcase;
 use stdClass;
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__ . '/../fixtures/test_indicator_max.php');
-require_once(__DIR__ . '/../fixtures/test_indicator_min.php');
-require_once(__DIR__ . '/../fixtures/test_target_site_users.php');
-require_once(__DIR__ . '/../fixtures/test_target_course_users.php');
-
 /**
  * Unit tests for privacy.
  *
@@ -129,10 +122,9 @@ class provider_test extends provider_testcase {
 
         $component = 'mod_pdfannotator';
 
-        $usercontext1 = \context_user::instance($this->user->id);
-        $userlist1 = new \core_privacy\local\request\userlist($usercontext1, $component);
+        $userlist1 = new \core_privacy\local\request\userlist($this->cmcontext, $component);
         provider::get_users_in_context($userlist1);
-        $this->assertCount(1, $userlist1);
+        $this->assertCount(1, $userlist1->get_users());
 
         // Create a comment for the question above.
         $answer = new stdClass();
